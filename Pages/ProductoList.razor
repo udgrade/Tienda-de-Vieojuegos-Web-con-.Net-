@@ -1,0 +1,97 @@
+@page "/ProductoAdd"
+
+@using OnlineBlazorApp.Data.Model
+@using OnlineBlazorApp.Data.Service
+
+@inject IProductoService ProductoService
+@inject NavigationManager NavigationManager
+@inject IFileUpload fileUpload
+
+
+
+
+<h1>Adicionar Producto</h1>
+
+<EditForm Model="@producto" OnValidSubmit="@ProductoInsert">
+    <table>
+        <tr>
+            <td>Código:</td>
+            <td><input type="text" @bind="producto.Codi_Prod" required /></td>
+        </tr>
+        <tr>
+            <td>Titulo:</td>
+            <td><input type="text" @bind="producto.Name_Prod" required /></td>
+        </tr>
+        <tr>
+            <td>Descripcion:</td>
+            <td><input type="text" @bind="producto.Desp_Prod" /></td>
+        </tr>
+        <tr>
+            <td>Genero:</td>
+            <td><input type="text" @bind="producto.Genero" /></td>
+        </tr>
+        <tr>
+            <td>Portada:</td>
+            <td>
+                <InputFile OnChange="SeleccionarArchivo"></InputFile>
+                @if (file != null)
+                {
+                    <p>Archivo cargado: @file.Name Tamaño del archivo: @file.Size Extensión @file.Type</p>}
+
+            </td>
+        </tr>
+        <tr>
+            <td>Precio:</td>
+            <td><input type="text" @bind="producto.Pric_Prod" /></td>
+        </tr>
+        <tr>
+            <td>Descuento:</td>
+            <td><input type="text" @bind="producto.Descuent_Prod" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Adicionar" />
+                <input type="button" value="Cancelar" @onclick="@Cancel" />
+            </td>
+        </tr>
+
+    </table>
+
+</EditForm>
+
+
+
+@code { Productos producto = new Productos();
+    IFileListEntry file;
+
+    public string UserName = null;
+
+    protected async Task ProductoInsert()
+    {
+
+        await ProductoService.ProductoInsert(producto);
+
+        NavigationManager.NavigateTo("/");
+    }
+
+    public bool verificarTipoImagen(string extension)
+    {
+        string[] typeImages = { ".png", ".jpg", ".jpeg", ".gif" };
+
+        return typeImages.Contains(extension);
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    async Task SeleccionarArchivo(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+        if (file != null && verificarTipoImagen(Path.GetExtension(file.Name)))
+        {
+            producto.Imgn_Prod = "/UploadImage/" + file.Name;
+            await fileUpload.UploadAsync(file);
+        }
+    } }

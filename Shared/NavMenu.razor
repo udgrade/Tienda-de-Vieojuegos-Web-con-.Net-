@@ -1,0 +1,71 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">OnlineBlazorApp</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="ProductoAdd">
+                <span class="oi oi-file" aria-hidden="true"></span> Adicionar Producto
+            </NavLink>
+        </li>
+       
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="store">
+                <span class="oi oi-file" aria-hidden="true"></span> Tienda
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Reclamoslist">
+                <span class="oi oi-file" aria-hidden="true"></span> Listar Clientes
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="tiendaadd">
+                <span class="oi oi-file" aria-hidden="true"></span> Adicionar Tienda
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="TiendaList">
+                <span class="oi oi-file" aria-hidden="true"></span> Lista de Tiendas
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Identity/Account/Register">
+                <span class="oi oi-person" aria-hidden="true"></span> Usuario
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="carrocompras">
+                <span class="oi oi-plus" aria-hidden="true"></span> Seleccionar Producto
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="VerificarCarrito">
+                <span class="oi oi-person" aria-hidden="true"></span> Ver Carrito
+            </NavLink>
+        </li>
+
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private string NavSubMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
